@@ -1,0 +1,3 @@
+interface Habit {
+    title: string;
+}
