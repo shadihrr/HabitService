@@ -20,6 +20,7 @@ if (process.env.ENVIRONMENT === 'DEV'){
     seedHabits();
 }
 const server = http.createServer(app);
-server.listen("3100", () => {
- console.log("server running port is 3100")
+const port = process.env.PORT || 8080;
+server.listen(port, () => {
+ console.log("server running port is:" + port)
 });
