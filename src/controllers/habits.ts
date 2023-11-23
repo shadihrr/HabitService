@@ -1,6 +1,6 @@
 import express from 'express';
 import { Firestore } from '@google-cloud/firestore';
-const db = new Firestore();
+const db = new Firestore({databaseId: process.env.DATABASE_ID});
 
 export const  getAllHabits = async (req: express.Request, res: express.Response) => {
 const user = db.collection('users').doc('WF7wmyZvh7nvS2QJFGZP');
