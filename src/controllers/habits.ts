@@ -1,31 +1,22 @@
 import express from 'express';
-import { Firestore } from '@google-cloud/firestore';
-const db = new Firestore({databaseId: process.env.DATABASE_ID});
+import * as habitService from '../services/habitService';
 
 export const  getAllHabits = async (req: express.Request, res: express.Response) => {
-const user = db.collection('users').doc('WF7wmyZvh7nvS2QJFGZP');
-const query = db.collection('habits')//.where('user', '==', user);
-const querySnapshot = await query.get();
-if (querySnapshot.size > 0) {
-    res.json(querySnapshot.docs);
-}
-else {
-    res.json({status: 'Not found'});
-}
+    try {
+        const habits = await habitService.getAllHabits();
+        res.status(200).json(habits);
+      } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch habits' });
+      }
 }
 export const  saveHabit = async (req: express.Request, res: express.Response) => {
-    const data = {
-        title: req.body.title,
+    const habit: Partial<Habit> = {
+        title: req.body.title
     }
-    await db.collection('habits').doc().set(data);
-    res.json({ status: 'success', data: { habit: data } });
-    // const user = db.collection('users').doc('WF7wmyZvh7nvS2QJFGZP');
-    // const query = db.collection('habits').where('user', '==', user);
-    // const querySnapshot = await query.get();
-    // if (querySnapshot.size > 0) {
-    //     res.json(querySnapshot.docs[0].data());
-    // }
-    // else {
-    //     res.json({status: 'Not found'});
-    // }
+  try {
+    const newItem = await habitService.createHabit(habit);
+    res.status(201).json(newItem);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to create item' });
+  }
     }

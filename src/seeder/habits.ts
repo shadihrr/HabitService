@@ -1,13 +1,16 @@
-import { Firestore } from '@google-cloud/firestore';
-const db = new Firestore();
+import * as habitService from '../services/habitService';
 
 export const  seedHabits = async () => {
     const collectionName = 'habits';
-    console.log('Seeding '+collectionName+ ' ...')
-    db.collection(collectionName);
-    await db.collection(collectionName).doc().set({
-        title:''
-    })
+    console.log('Seeding Habits ...')
+    const habit: Partial<Habit> = {
+        title: 'random world'
+    }
+  try {
+    const newItem = await habitService.createHabit(habit);
+  } catch (error) {
+    console.log('Faied to seed habitss')
+  }
 
-    console.log('seeding data finished...')
+    console.log('seeding habits finished...')
 }
