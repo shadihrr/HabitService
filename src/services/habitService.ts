@@ -26,7 +26,7 @@ export const getHabityId = async (id: string) => {
 };
 
 export const updateHabit = async (id: string, habit: Partial<Habit>) => {
-  await firestore.collection('items').doc(id).update(habit);
+  await firestore.collection('habits').doc(id).update(habit);
   return habit;
 };
 
